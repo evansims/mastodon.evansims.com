@@ -98,6 +98,12 @@ services:
       - SMTP_LOGIN
       - SMTP_PASSWORD
       - SMTP_FROM_ADDRESS
+      - THROTTLE_API_LIMIT
+      - THROTTLE_API_PERIOD
+      - THROTTLE_MEDIA_LIMIT
+      - THROTTLE_MEDIA_PERIOD
+      - THROTTLE_FOLLOW_LIMIT
+      - THROTTLE_FOLLOW_PERIOD
 
   streaming:
     image: ghcr.io/mastodon/mastodon:v4.4.2
@@ -176,6 +182,12 @@ services:
       - SMTP_LOGIN
       - SMTP_PASSWORD
       - SMTP_FROM_ADDRESS
+      - THROTTLE_API_LIMIT
+      - THROTTLE_API_PERIOD
+      - THROTTLE_MEDIA_LIMIT
+      - THROTTLE_MEDIA_PERIOD
+      - THROTTLE_FOLLOW_LIMIT
+      - THROTTLE_FOLLOW_PERIOD
 
   sidekiq:
     image: ghcr.io/mastodon/mastodon:v4.4.2
@@ -218,6 +230,12 @@ services:
       - SMTP_LOGIN
       - SMTP_PASSWORD
       - SMTP_FROM_ADDRESS
+      - THROTTLE_API_LIMIT
+      - THROTTLE_API_PERIOD
+      - THROTTLE_MEDIA_LIMIT
+      - THROTTLE_MEDIA_PERIOD
+      - THROTTLE_FOLLOW_LIMIT
+      - THROTTLE_FOLLOW_PERIOD
 
   ## Uncomment to enable federation with tor instances along with adding the following ENV variables
   ## http_hidden_proxy=http://privoxy:8118
