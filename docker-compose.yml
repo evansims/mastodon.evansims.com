@@ -142,6 +142,7 @@ services:
     restart: always
     command: /bin/bash -c "while true; do sleep 3600; done"
     networks:
+      - external_network
       - internal_network
     depends_on:
       - db
@@ -170,6 +171,11 @@ services:
       - ES_ENABLED
       - SINGLE_USER_MODE
       - REGISTRATIONS_MODE
+      - SMTP_SERVER
+      - SMTP_PORT
+      - SMTP_LOGIN
+      - SMTP_PASSWORD
+      - SMTP_FROM_ADDRESS
 
   sidekiq:
     image: ghcr.io/mastodon/mastodon:v4.4.2
