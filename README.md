@@ -53,6 +53,14 @@ In Dokploy's environment variables section, add all variables from `.env.product
 - `NODE_ENV=production`
 - SMTP credentials for your email provider
 
+**Rate Limiting (recommended values for personal use):**
+- `THROTTLE_API_LIMIT=10000` - API requests per period (very permissive)
+- `THROTTLE_API_PERIOD=300` - Period in seconds (5 minutes)
+- `THROTTLE_MEDIA_LIMIT=1000` - Media uploads per period (essentially unlimited)
+- `THROTTLE_MEDIA_PERIOD=300` - Media period in seconds (5 minutes)
+- `THROTTLE_FOLLOW_LIMIT=10000` - Follows per day (essentially unlimited)
+- `THROTTLE_FOLLOW_PERIOD=86400` - Follow period (24 hours)
+
 **Generating Required Keys:**
 
 1. First, deploy with minimal config to get containers running
