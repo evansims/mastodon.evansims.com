@@ -73,16 +73,32 @@ Configure your Dokploy proxy/reverse proxy to:
 - Route `/api/v1/streaming` to port 4000
 
 ### 5. Initial Setup Commands
-After first deployment, run these commands via Dokploy's terminal:
+
+The docker-compose includes an **admin** container specifically for running maintenance commands. This container stays running and won't crash even if the database isn't initialized.
+
+1. In Dokploy's dashboard, go to your Mastodon application
+2. Find the **admin** container
+3. Click on "Terminal" to open a shell
+4. Run these commands:
 
 ```bash
-# Initialize database
-docker-compose run --rm web bundle exec rake db:setup
+# Initialize the database (first time only)
+bundle exec rake db:setup
 
-# Create your accounts
-docker-compose run --rm web bin/tootctl accounts create hello --email hello@evansims.com --confirmed --role Owner
-docker-compose run --rm web bin/tootctl accounts create photos --email photos@evansims.com --confirmed --role Moderator
+# Create your admin account
+bin/tootctl accounts create hello --email hello@evansims.com --confirmed --role Owner
+
+# Create additional accounts as needed
+bin/tootctl accounts create photos --email photos@evansims.com --confirmed --role Moderator
 ```
+
+After running `db:setup`, your web container should start successfully.
+
+**Using the admin container for other tasks:**
+- Database migrations: `bundle exec rake db:migrate`
+- Clear cache: `bin/tootctl cache clear`
+- Media cleanup: `bin/tootctl media remove`
+- Account management: `bin/tootctl accounts`
 
 ### 6. Domain Configuration
 Ensure Dokploy is configured to:
@@ -102,7 +118,10 @@ Ensure Dokploy is configured to:
 ### Viewing Logs
 Use Dokploy's log viewer or:
 ```bash
-docker-compose logs -f [service_name]
+# Find container name first
+docker ps | grep mastodon
+# Then view logs
+docker logs -f [container-name]
 ```
 
 ### Updating Mastodon
@@ -111,7 +130,10 @@ docker-compose logs -f [service_name]
 3. Trigger deployment in Dokploy
 4. Run migrations if needed:
    ```bash
-   docker-compose run --rm web bundle exec rake db:migrate
+   # Find your web container name
+   docker ps | grep mastodon.*web
+   # Run migrations
+   docker exec -it [web-container-name] bundle exec rake db:migrate
    ```
 
 ### Backup
