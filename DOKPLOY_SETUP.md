@@ -1,0 +1,88 @@
+# Dokploy Deployment Guide for Mastodon
+
+## Prerequisites
+- Dokploy instance running
+- Domain configured (mastodon.evansims.com)
+- SSL certificates configured in Dokploy
+
+## Deployment Steps
+
+### 1. Create New Application in Dokploy
+1. Go to your Dokploy dashboard
+2. Create a new application
+3. Select "Docker Compose" as the deployment type
+4. Connect your Git repository
+
+### 2. Environment Variables
+In Dokploy's environment variables section, add all variables from `.env.production.example`:
+
+**Critical Variables to Set:**
+- `SECRET_KEY_BASE` - Generate with: `openssl rand -base64 64`
+- `OTP_SECRET` - Generate with: `openssl rand -base64 64`
+- `VAPID_PRIVATE_KEY` & `VAPID_PUBLIC_KEY` - Generate locally first
+- `DB_PASS` - Set a strong database password
+- SMTP credentials for your email provider
+
+### 3. Volume Configuration
+The docker-compose.yml uses named volumes for persistence:
+- `postgres_data` - Database storage
+- `redis_data` - Redis cache
+- `public_system` - User uploads
+
+These will be managed by Dokploy automatically.
+
+### 4. Port Configuration
+- Web interface: Port 3000
+- Streaming API: Port 4000
+
+Configure your Dokploy proxy/reverse proxy to:
+- Route HTTPS traffic to port 3000
+- Route `/api/v1/streaming` to port 4000
+
+### 5. Initial Setup Commands
+After first deployment, run these commands via Dokploy's terminal:
+
+```bash
+# Initialize database
+docker-compose run --rm web bundle exec rake db:setup
+
+# Create your accounts
+docker-compose run --rm web bin/tootctl accounts create hello --email hello@evansims.com --confirmed --role Owner
+docker-compose run --rm web bin/tootctl accounts create photos --email photos@evansims.com --confirmed --role Moderator
+```
+
+### 6. Domain Configuration
+Ensure Dokploy is configured to:
+- Serve the app at https://mastodon.evansims.com
+- Handle SSL termination
+- Pass proper headers (X-Forwarded-For, X-Forwarded-Proto)
+
+## Dokploy-Specific Notes
+
+1. **No nginx container needed** - Dokploy handles reverse proxy
+2. **Volumes are managed** - Don't use bind mounts
+3. **Ports are simplified** - Removed localhost binding
+4. **Environment variables** - Managed through Dokploy UI
+
+## Maintenance
+
+### Viewing Logs
+Use Dokploy's log viewer or:
+```bash
+docker-compose logs -f [service_name]
+```
+
+### Updating Mastodon
+1. Update the image version in docker-compose.yml
+2. Push to your repository
+3. Trigger deployment in Dokploy
+4. Run migrations if needed:
+   ```bash
+   docker-compose run --rm web bundle exec rake db:migrate
+   ```
+
+### Backup
+Configure Dokploy's backup feature to regularly backup the volumes:
+- postgres_data (critical)
+- public_system (user uploads)
+- redis_data (optional, just cache)

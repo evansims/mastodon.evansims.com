@@ -2,7 +2,7 @@
 
 ## Security Setup (IMPORTANT)
 
-Before starting:
+### For Local Development:
 1. Copy `.env.production.example` to `.env.production`:
    ```bash
    cp .env.production.example .env.production
@@ -15,6 +15,11 @@ Before starting:
    - Database data
    - SSL certificates
    - User-uploaded content
+
+### For Dokploy Deployment:
+- Use Dokploy's environment variable management instead of `.env.production`
+- See `DOKPLOY_SETUP.md` for detailed instructions
+- All secrets should be configured through Dokploy's UI
 
 ## Initial Setup
 
