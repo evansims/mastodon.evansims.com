@@ -34,23 +34,32 @@
    ```
    Add the output to `OTP_SECRET` in `.env.production`
 
-2. **Generate VAPID keys:**
+2. **Generate Active Record Encryption keys:**
+   ```bash
+   docker-compose run --rm web bin/rails db:encryption:init
+   ```
+   Add the three keys to their respective variables in `.env.production`:
+   - `ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY`
+   - `ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT`
+   - `ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY`
+
+3. **Generate VAPID keys:**
    ```bash
    docker-compose run --rm web bundle exec rake mastodon:webpush:generate_vapid_key
    ```
    Add the private and public keys to `VAPID_PRIVATE_KEY` and `VAPID_PUBLIC_KEY` in `.env.production`
 
-3. **Setup the database:**
+4. **Setup the database:**
    ```bash
    docker-compose run --rm web bundle exec rake db:setup
    ```
 
-4. **Precompile assets:**
+5. **Precompile assets:**
    ```bash
    docker-compose run --rm web bundle exec rake assets:precompile
    ```
 
-5. **Create your accounts:**
+6. **Create your accounts:**
    
    Create your main admin account:
    ```bash

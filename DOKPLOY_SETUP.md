@@ -21,7 +21,10 @@ In Dokploy's environment variables section, add all variables from `.env.product
 - `WEB_DOMAIN=mastodon.evansims.com`
 - `SECRET_KEY_BASE` - Generate with: `openssl rand -base64 64`
 - `OTP_SECRET` - Generate with: `openssl rand -base64 64`
-- `VAPID_PRIVATE_KEY` & `VAPID_PUBLIC_KEY` - Generate locally first
+- `VAPID_PRIVATE_KEY` & `VAPID_PUBLIC_KEY` - See generation instructions below
+- `ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY` - See generation instructions below
+- `ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT` - See generation instructions below
+- `ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY` - See generation instructions below
 - `DB_HOST=db`
 - `DB_USER=postgres`
 - `DB_NAME=postgres`
@@ -33,6 +36,23 @@ In Dokploy's environment variables section, add all variables from `.env.product
 - `RAILS_ENV=production`
 - `NODE_ENV=production`
 - SMTP credentials for your email provider
+
+**Generating Required Keys:**
+
+1. First, deploy with minimal config to get containers running
+2. Generate encryption keys:
+   ```bash
+   docker exec -it [web_container_name] bin/rails db:encryption:init
+   ```
+   Copy the three encryption keys to Dokploy environment variables
+
+3. Generate VAPID keys:
+   ```bash
+   docker exec -it [web_container_name] bundle exec rake mastodon:webpush:generate_vapid_key
+   ```
+   Copy both keys to Dokploy environment variables
+
+4. Redeploy to apply all environment variables
 
 **Important:** Dokploy will inject these as environment variables into all containers.
 
