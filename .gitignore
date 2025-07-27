@@ -1,6 +1,5 @@
 # Environment files with secrets
 .env.production
-.env
 .env.local
 .env.*.local
 

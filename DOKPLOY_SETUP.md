@@ -17,11 +17,24 @@
 In Dokploy's environment variables section, add all variables from `.env.production.example`:
 
 **Critical Variables to Set:**
+- `LOCAL_DOMAIN=evansims.com`
+- `WEB_DOMAIN=mastodon.evansims.com`
 - `SECRET_KEY_BASE` - Generate with: `openssl rand -base64 64`
 - `OTP_SECRET` - Generate with: `openssl rand -base64 64`
 - `VAPID_PRIVATE_KEY` & `VAPID_PUBLIC_KEY` - Generate locally first
-- `DB_PASS` - Set a strong database password
+- `DB_HOST=db`
+- `DB_USER=postgres`
+- `DB_NAME=postgres`
+- `DB_PASS` - Leave empty (trust authentication)
+- `DB_PORT=5432`
+- `REDIS_HOST=redis`
+- `REDIS_PORT=6379`
+- `SINGLE_USER_MODE=false`
+- `RAILS_ENV=production`
+- `NODE_ENV=production`
 - SMTP credentials for your email provider
+
+**Important:** Dokploy will inject these as environment variables into all containers.
 
 ### 3. Volume Configuration
 The docker-compose.yml uses named volumes for persistence:
