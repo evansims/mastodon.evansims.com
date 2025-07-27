@@ -71,6 +71,33 @@ services:
       # - es
     volumes:
       - public_system:/mastodon/public/system
+    environment:
+      - LOCAL_DOMAIN
+      - WEB_DOMAIN
+      - RAILS_ENV
+      - NODE_ENV
+      - SECRET_KEY_BASE
+      - OTP_SECRET
+      - VAPID_PRIVATE_KEY
+      - VAPID_PUBLIC_KEY
+      - ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
+      - ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
+      - ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
+      - DB_HOST
+      - DB_USER
+      - DB_NAME
+      - DB_PASS
+      - DB_PORT
+      - REDIS_HOST
+      - REDIS_PORT
+      - ES_ENABLED
+      - SINGLE_USER_MODE
+      - REGISTRATIONS_MODE
+      - SMTP_SERVER
+      - SMTP_PORT
+      - SMTP_LOGIN
+      - SMTP_PASSWORD
+      - SMTP_FROM_ADDRESS
 
   streaming:
     image: ghcr.io/mastodon/mastodon:v4.4.2
@@ -87,6 +114,28 @@ services:
     depends_on:
       - db
       - redis
+    environment:
+      - LOCAL_DOMAIN
+      - WEB_DOMAIN
+      - RAILS_ENV
+      - NODE_ENV
+      - SECRET_KEY_BASE
+      - OTP_SECRET
+      - VAPID_PRIVATE_KEY
+      - VAPID_PUBLIC_KEY
+      - ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
+      - ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
+      - ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
+      - DB_HOST
+      - DB_USER
+      - DB_NAME
+      - DB_PASS
+      - DB_PORT
+      - REDIS_HOST
+      - REDIS_PORT
+      - ES_ENABLED
+      - SINGLE_USER_MODE
+      - REGISTRATIONS_MODE
 
   sidekiq:
     image: ghcr.io/mastodon/mastodon:v4.4.2
@@ -102,6 +151,33 @@ services:
       - public_system:/mastodon/public/system
     healthcheck:
       test: ["CMD-SHELL", "ps aux | grep '[s]idekiq 6' || false"]
+    environment:
+      - LOCAL_DOMAIN
+      - WEB_DOMAIN
+      - RAILS_ENV
+      - NODE_ENV
+      - SECRET_KEY_BASE
+      - OTP_SECRET
+      - VAPID_PRIVATE_KEY
+      - VAPID_PUBLIC_KEY
+      - ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
+      - ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
+      - ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
+      - DB_HOST
+      - DB_USER
+      - DB_NAME
+      - DB_PASS
+      - DB_PORT
+      - REDIS_HOST
+      - REDIS_PORT
+      - ES_ENABLED
+      - SINGLE_USER_MODE
+      - REGISTRATIONS_MODE
+      - SMTP_SERVER
+      - SMTP_PORT
+      - SMTP_LOGIN
+      - SMTP_PASSWORD
+      - SMTP_FROM_ADDRESS
 
   ## Uncomment to enable federation with tor instances along with adding the following ENV variables
   ## http_hidden_proxy=http://privoxy:8118
