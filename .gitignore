@@ -1,0 +1,47 @@
+# Environment files with secrets
+.env.production
+.env
+.env.local
+.env.*.local
+
+# Mastodon data directories
+/public/system
+/public/assets
+/public/packs
+/node_modules
+/vendor/bundle
+
+# Database
+/postgres14
+/redis
+/elasticsearch
+
+# Logs
+*.log
+/log/*
+
+# Temporary files
+/tmp
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Backup files
+*.sql
+*.dump
+backup/
+
+# SSL certificates
+*.pem
+*.key
+*.crt
+*.csr
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# Docker volumes
+docker-compose.override.yml
