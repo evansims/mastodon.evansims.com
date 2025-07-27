@@ -7,7 +7,6 @@ updates:
       interval: "weekly"
       day: "monday"
       time: "03:00"
-    # Update Mastodon images
     open-pull-requests-limit: 10
     reviewers:
       - "evansims"
@@ -18,15 +17,12 @@ updates:
       prefix: "chore"
       prefix-development: "chore"
       include: "scope"
-    # Only allow updates to newer versions
-    versioning-strategy: increase
-    ignore:
-      # Ignore major version updates if you want more stability
-      # - dependency-name: "ghcr.io/mastodon/mastodon"
-      #   update-types: ["version-update:semver-major"]
-      # Ignore specific versions
-      # - dependency-name: "ghcr.io/mastodon/mastodon"
-      #   versions: ["4.5.x", "5.x"]
+    # Uncomment to ignore specific updates:
+    # ignore:
+    #   - dependency-name: "ghcr.io/mastodon/mastodon"
+    #     update-types: ["version-update:semver-major"]
+    #   - dependency-name: "postgres"
+    #     versions: ["15.x", "16.x"]
 
   # Monitor GitHub Actions (if you add any workflows later)
   - package-ecosystem: "github-actions"
